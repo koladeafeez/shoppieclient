@@ -12,6 +12,7 @@ import Menu from "@material-ui/core/Menu";
 import Button from "@material-ui/core/Button";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
+import CancelIcon from "@material-ui/icons/Cancel";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -189,6 +190,7 @@ const useStyles = makeStyles((theme) => ({
   },
   popMenu: {
     opacity: 4,
+    minWidth: "50%",
     // display: "none",
     // backgroundColor: theme.palette.background,
   },
@@ -196,6 +198,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#212121",
     color: "#fff",
     height: "50%",
+    width: "100%",
+    alignItems: "center",
   },
   divider: {
     backgroundColor: "#fff",
@@ -227,9 +231,13 @@ function PrimarySearchAppBar({
   const classes = useStyles();
   const [searchValue, setSearchValue] = React.useState("good");
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const [profileEl, setProfileEl] = React.useState(null);
+
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
+  const isProfileOpen = Boolean(profileEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const [showSearch, setShowSearch] = React.useState(false);
@@ -267,8 +275,16 @@ function PrimarySearchAppBar({
     setAnchorEl(event.currentTarget);
   };
 
+  const handleMenuBarOpen = (event) => {
+    setProfileEl(event.currentTarget);
+  };
+
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuBarClose = () => {
+    setProfileEl(null);
   };
 
   const handleMenuClose = () => {
@@ -295,6 +311,8 @@ function PrimarySearchAppBar({
       className={classes.popMenu}
     >
       <div className={classes.popMenuUl}>
+        <MenuItem onClick={handleMenuClose}>Collections Menu</MenuItem>
+        <Divider className={classes.divider} />
         <MenuItem onClick={handleMenuClose}>Joggers</MenuItem>
         <Divider className={classes.divider} />
         <MenuItem onClick={handleMenuClose}>Aso Oke</MenuItem>
@@ -334,7 +352,7 @@ function PrimarySearchAppBar({
         </MenuItem>
         <Divider className={classes.divider} />
 
-        <MenuItem onClick={handleProfileMenuOpen}>
+        <MenuItem onClick={handleMenuBarOpen}>
           <IconButton
             aria-label="account of current user"
             aria-controls="primary-search-account-menu"
@@ -343,8 +361,24 @@ function PrimarySearchAppBar({
           >
             <AccountCircle />
           </IconButton>
-          <p>Profile</p>
+          <p>firstname l.</p>
         </MenuItem>
+        <Menu
+          anchorEl={profileEl}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          // id={menuId}
+          keepMounted
+          transformOrigin={{ vertical: "top", horizontal: "right" }}
+          open={isProfileOpen}
+          onClose={handleMenuBarClose}
+          className={classes.popMenu}
+        >
+          <div className={classes.popMenuUl}>
+            <MenuItem onClick={handleMenuClose}>Collections</MenuItem>
+            <Divider className={classes.divider} />
+            <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
+          </div>
+        </Menu>
       </div>
     </Menu>
   );
@@ -364,12 +398,16 @@ function PrimarySearchAppBar({
           </IconButton>
           <Link to="/" className={classes.link}>
             <Typography className={classes.title} variant="h6" noWrap>
-              {searchValue}
+              Commerce
             </Typography>
           </Link>
           <div className={classes.searchIconMin}>
             <IconButton onClick={handleSearchIconClick}>
-              {showSearch ? <AccountCircle /> : <SearchIcon />}
+              {showSearch ? (
+                <CancelIcon style={{ color: "red", fontSize: "larger" }} />
+              ) : (
+                <SearchIcon />
+              )}
             </IconButton>
           </div>
           <form

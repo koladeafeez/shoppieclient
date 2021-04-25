@@ -94,12 +94,14 @@ export const getJoggerError = (error) => {
 export function getAllJoggers(pageNumber = 1, searchTerm = "", price = 0) {
   console.log("pageNumber", pageNumber);
   console.log("searchterm in action", searchTerm);
-  let URL = `http://localhost:4000/api/product/joggers?page=${pageNumber}&limit=5&search=${searchTerm}&price=${price}`;
-  console.log(URL);
+  let PROD_URL = `https://shoppieapi.herokuapp.com/api/product/joggers?page=${pageNumber}&limit=5&search=${searchTerm}&price=${price}`;
+  console.log(PROD_URL);
+  let LOCAL_URL = `http://localhost:4000/api/product/joggers?page=${pageNumber}&limit=5&search=${searchTerm}&price=${price}`;
+  console.log(PROD_URL);
   return (dispatch) => {
     dispatch(getAllJoggersRequest());
     axios
-      .get(URL, {
+      .get(PROD_URL, {
         headers: {
           authorization:
             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNzc2OTY4ZmMyOWE5MWRhNDBhYjMzMSIsInJvbGUiOiJiYXNpYyIsImlhdCI6MTYxODQzODYxNiwiZXhwIjoxNjE4NTI1MDE2fQ.TiCBPES4kTnjnqf-TyNAcfrw4ZgQhtDTAoWU3Gdi_dY",
@@ -126,13 +128,14 @@ export function getAllJoggers(pageNumber = 1, searchTerm = "", price = 0) {
 }
 
 export const getJogger = (productId) => {
-  let URL = `http://localhost:4000/api/product/joggers/${productId}`;
+  let PROD_URL = `https://shoppieapi.herokuapp.com/api/product/joggers/${productId}`;
+  let LOCAL_URL = `http://localhost:4000/api/product/joggers/${productId}`;
   console.log("productID", productId);
   console.log("URL", URL);
   return (dispatch) => {
     dispatch(getJoggerRequest());
     axios
-      .get(URL)
+      .get(PROD_URL)
       .then((response) => {
         console.log("response is good", response);
         if (response.status === 200 && response.statusText === "OK") {

@@ -26,6 +26,18 @@ const useStyles = makeStyles((theme) => ({
   },
   notDisabled: {},
   disabled: {},
+  paginationContainer: {
+    height: "6rem",
+    backgroundColor: "#f5f5f5",
+  },
+  paginationUl: {
+    padding: 0,
+    float: "right",
+    marginTop: "2rem",
+  },
+  paginatedButton: {
+    width: "5%",
+  },
 }));
 
 const Products = ({
@@ -43,6 +55,12 @@ const Products = ({
   const [products, setProducts] = useState([]);
 
   const numberOfPages = [];
+
+  fetch(
+    "https://shoppieapi.herokuapp.com/api/product/joggers?page=1&limit=5&search=&price=0"
+  )
+    .then((res) => res.json())
+    .then((data) => console.log(data));
 
   // if (numberOfPages.length >= 10) {
   // let  moveForward = remove(previous.page);
@@ -102,40 +120,40 @@ const Products = ({
           </Grid>
         ))}
       </Grid>
-      <div>
-        <ul>
-          <button
+      <div className={classes.paginationContainer}>
+        <ul className={classes.paginationUl}>
+          <Button
+            variant="outlined"
             value={!previous ? 0 : previous.page}
             disabled={!previous ? true : false}
-            className={classes.notDisabled}
+            className={classes.paginatedButton}
             onClick={(e) => handlePagination(e, searchTerm)}
           >
-            PREVIOUS
-          </button>
+            PREV
+          </Button>
           {numberOfPages.map((pageNumber) => {
-            // if (currentPageValue == 6) {
-            //   removePage = numberOfPages.shift(2, 5);
-            // }
-            if (pageNumber <= 10) {
-              currentPageValue += 1;
-              return <Button> {pageNumber} </Button>;
-            } else {
-              return <p> ... </p>;
-            }
+            return (
+              <Button variant="outlined" className={classes.paginatedButton}>
+                {" "}
+                {pageNumber}{" "}
+              </Button>
+            );
           })}
           {/* {numberOfPages.map((pageNumber) => {
             
           })} */}
-          <button
+          <Button
             value={!next ? 0 : next.page}
             onClick={(e) => handlePagination(e, searchTerm)}
             disabled={!next ? true : false}
-            className={classes.notDisabled}
+            variant="outlined"
+            className={classes.paginatedButton}
           >
             NEXT
-          </button>
+          </Button>
         </ul>
       </div>
+      <div style={{ width: "100%", height: "10px", marginTop: "4rem" }}></div>
     </main>
   );
 };

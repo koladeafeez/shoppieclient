@@ -6,9 +6,14 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import CartItem from "./CartItem.js";
 import { getItemInCart } from "../../redux/actions/cartActions.js";
+import { Autocomplete } from "@material-ui/lab";
 // import useStyles from "../../styles/Cartstyles";
 
 const useStyles = makeStyles((theme) => ({
+  sectionContainer: {
+    maxWidth: "80%",
+    margin: "0 auto",
+  },
   table: {
     display: "grid",
     gridTemplateColumns: "repeat(4, 25%)",
@@ -18,9 +23,48 @@ const useStyles = makeStyles((theme) => ({
   },
   productName: {
     width: "40%",
+    color: "#8e8e93",
+    fontWeight: 500,
+    fontSize: "14px",
+    lineHeight: 1.14,
+    textTransform: "uppercase",
   },
   otherColumn: {
     width: "20%",
+    color: "#8e8e93",
+    fontWeight: 500,
+    fontSize: "14px",
+    lineHeight: 1.14,
+    textTransform: "uppercase",
+  },
+  totalLabel: {
+    display: "inline",
+  },
+  totalAmount: {
+    display: "inline",
+    marginLeft: "2rem",
+    color: "#f68b1e",
+    fontWeight: 500,
+    fontSize: "1.2rem",
+  },
+  btnContainer: {
+    marginTop: "3rem",
+    backgroundColor: "#ffffff",
+    height: "5rem",
+  },
+  btn1: {
+    minWidth: "30%",
+    marginTop: "1rem",
+    marginLeft: "1rem",
+    color: "#f68b1e",
+    borderRadius: 0,
+  },
+  btn2: {
+    minWidth: "30%",
+    marginTop: "1rem",
+    marginLeft: theme.spacing(2),
+    backgroundColor: "#f68b1e",
+    borderRadius: 0,
   },
 }));
 
@@ -97,8 +141,9 @@ const Cart = ({ itemNumber, cartItem, getCart, saveItems }) => {
   //   </>
   // );
 
+  if (!cartItem) return <div> Loading</div>;
   return (
-    <>
+    <div className={classes.sectionContainer}>
       <Grid container>
         <Grid item className={classes.productName}>
           ITEM
@@ -117,32 +162,37 @@ const Cart = ({ itemNumber, cartItem, getCart, saveItems }) => {
           return <CartItem product={item} />;
         })}
       </Grid>
-      <div>
-        <Typography>Total </Typography>
-        <Typography> $5000 </Typography>
+      <div style={{ float: "right" }}>
+        <Typography className={classes.totalLabel}>Total: </Typography>
+        <Typography className={classes.totalAmount}> $5000 </Typography>
       </div>
 
-      <div>
-        <Button>Go Back To Shop</Button>
-        <Button> Checkout </Button>
+      <div className={classes.btnContainer}>
+        <Button variant="contained" className={classes.btn1}>
+          Go Back To Shop
+        </Button>
+        <Button variant="contained" className={classes.btn2}>
+          {" "}
+          Proceed To Checkout{" "}
+        </Button>
       </div>
-    </>
+    </div>
+  );
 
-    // <Container>
-    // <table className={classes.table}>
-    //   <tr>
-    //     <th>ITEM</th>
-    //     <th>QUANTITY</th>
-    //     <th>UNIT PRICE</th>
-    //     <th>SUB TOTAL</th>
-    //   </tr>
-    //   <CartItem />
-    // </table>
-    /* <div className={classes.toolbar} />
+  // <Container>
+  // <table className={classes.table}>
+  //   <tr>
+  //     <th>ITEM</th>
+  //     <th>QUANTITY</th>
+  //     <th>UNIT PRICE</th>
+  //     <th>SUB TOTAL</th>
+  //   </tr>
+  //   <CartItem />
+  // </table>
+  /* <div className={classes.toolbar} />
       <Typography className={classes.title} variant="h3" gutterBottom>Your Shopping Cart</Typography>
       { !cart.line_items.length ? renderEmptyCart() : renderCart() } */
-    // </Container>
-  );
+  // </Container>
 };
 
 const mapStateToProps = (state) => {

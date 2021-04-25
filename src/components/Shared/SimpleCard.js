@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: 150,
     marginBottom: "1rem",
+    width: "100%",
   },
   contentText: {
     // [theme.breakpoints.down("sm")]: {
@@ -41,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "1rem",
     justifyContent: "space-between",
     alignItems: "center",
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "0",
+    },
   },
   productPriceSection: {
     minWidth: "50%",
@@ -53,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     [theme.breakpoints.down("xs")]: {
       maxWidth: "2rem",
+      marginRight: "2rem",
     },
   },
   productPrice: {
@@ -61,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bolder",
     [theme.breakpoints.down("xs")]: {
       fontSize: "1rem",
+      textAlign: "left",
     },
   },
   link: {
@@ -90,6 +96,7 @@ function SimpleCard({ product, getJogger, addJoggerToCart }, props) {
   // )}`;
 
   // console.log(window.location.pathname);
+  const location = window.location.pathname;
 
   const handleAddToCart = async (e) => {
     e.preventDefault();
@@ -180,14 +187,18 @@ function SimpleCard({ product, getJogger, addJoggerToCart }, props) {
             </Typography>
           </div>
           <div className={classes.productButtonSection}>
-            <Button
-              variant="outlined"
-              onClick={(e) => handleAddToCart(e)}
-              className={`${classes.addToCart}`}
-            >
-              <AddShoppingCart style={{ width: "1rem" }} />
-              <Typography> Add</Typography>
-            </Button>
+            {location === "/" ? (
+              ""
+            ) : (
+              <Button
+                variant="outlined"
+                onClick={(e) => handleAddToCart(e)}
+                className={`${classes.addToCart}`}
+              >
+                <AddShoppingCart style={{ width: "1rem" }} />
+                <Typography> Add</Typography>
+              </Button>
+            )}
           </div>
         </div>
         {/* <div className={classes.productDataButton}> */}

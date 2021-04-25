@@ -180,13 +180,13 @@ const useStyles = makeStyles((theme) => ({
     height: "30px",
   },
   categoryContainer: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
+    // display: "flex",
+    // flexDirection: "row",
+    // flexWrap: "wrap",
     [theme.breakpoints.down("sm")]: {},
   },
   categoryItem: {
-    width: "50%",
+    width: "100%",
   },
   formControl: {
     width: "100%",
@@ -203,6 +203,12 @@ const useStyles = makeStyles((theme) => ({
   file: {
     display: "none",
   },
+  categorieslinks: {
+    fontWeight: "bold",
+    textDecoration: "undeline",
+    marginTop: "1rem",
+    minWidth: "100%",
+  },
 }));
 
 const Layout = ({ children, cartItem, onGetAllJoggers }) => {
@@ -215,7 +221,11 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
   const [isLocationAccount, setIsLocationAccount] = useState(false);
   // let remove = "";
 
-  let Location = window.location.pathname.includes("/product/");
+  let Location =
+    window.location.pathname.includes("/product/") ||
+    window.location.pathname.includes("/cart") ||
+    window.location.pathname.includes("/joggers/");
+
   console.log("layoutcartitem", cartItem);
   let show = window.location.pathname === "/Account" ? "none" : "";
   let fullWidth =
@@ -310,12 +320,12 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
                       // label="Age"
                     >
                       {/* <div> */}
-                      <MenuItem
+                      {/* <MenuItem
                         value=""
                         style={{ backgroundColor: "#212121", color: "#ffffff" }}
                       >
                         <em>None</em>
-                      </MenuItem>
+                      </MenuItem> */}
                       <MenuItem
                         value="lagos"
                         style={{ backgroundColor: "#212121", color: "#ffffff" }}
@@ -388,7 +398,7 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
           <Paper
             id="showcase"
             style={{ display: show }}
-            className={`${classes.showcaseHome} window.location.pathname === "/Account" ? ${classes.remove} : ""`}
+            className={`${classes.showcaseHome} window.location.pathname === "/Account" || window.location.pathname === "/cart" ? ${classes.remove} : ""`}
           >
             {/* <img
             src={img}
@@ -478,23 +488,27 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
                 <Divider />
                 <List>
                   <Typography style={{ fontWeight: "bold" }}>
-                    {" "}
-                    Categories{" "}
+                    Categories
                   </Typography>
                   <div className={classes.categoryContainer}>
                     {[
-                      "one",
-                      "two",
-                      "three",
-                      "one",
-                      "two",
-                      "three",
-                      "one",
-                      "two",
-                      "three",
+                      "short",
+                      "long",
+                      "top",
+                      "trouser",
+                      "crop",
+                      "flair",
+                      "men",
+                      "female",
+                      "unisex",
                     ].map((text, index) => (
                       <div className={classes.categoryItem}>
-                        <Typography key={index}> {text}</Typography>
+                        <Button
+                          variant="contained"
+                          className={classes.categorieslinks}
+                        >
+                          {text}
+                        </Button>
                       </div>
                     ))}
                   </div>
