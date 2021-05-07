@@ -47,7 +47,7 @@ export function getAllJoggersReducer(state = joggersInitialState, action) {
 
 const joggerInitialState = {
   loading: false,
-  jogger: {},
+  data: {},
   error: null,
 };
 
@@ -63,7 +63,7 @@ export function getJoggerReducer(state = joggerInitialState, action) {
         ...state,
         loading: false,
         error: null,
-        jogger: action.payload,
+        data: action.payload,
       };
     case GET_JOGGER_ERROR:
       return {

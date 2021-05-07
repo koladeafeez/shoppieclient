@@ -7,15 +7,30 @@ import Product from "./Product.js";
 import { getAllJoggers } from "../../redux/actions/joggerActions";
 // import useStyles from "../../styles/ProductsListStyles";
 import { connect } from "react-redux";
-import { Button } from "@material-ui/core";
+import { Button, Typography, Divider } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  gridContainer: {
+    padding: "6px !important",
+    minHeight: "90vh",
+    [theme.breakpoints.down("xs")]: {
+      minHeight: "70vh",
+      flexBasis: "90%",
+    },
+  },
+
+  media: {
+    // [theme.breakpoints.down("xs")]: {
+    //   height: "40vh",
+    // },
+  },
+
   content: {
     // marginTop: "3rem",
     // marginBottom: "2rem",
     backgroundColor: theme.palette.background,
     [theme.breakpoints.down("xs")]: {
-      backgroundColor: theme.palette.pageBackground,
+      // backgroundColor: theme.palette.pageBackground,
     },
   },
   scrollItem1: {
@@ -23,20 +38,40 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     marginTop: 0,
+    [theme.breakpoints.down("xs")]: {
+      // backgroundColor: theme.palette.background,
+    },
   },
   notDisabled: {},
   disabled: {},
   paginationContainer: {
     height: "6rem",
+    paddingTop: "2rem",
     backgroundColor: "#f5f5f5",
   },
   paginationUl: {
     padding: 0,
-    float: "right",
+    // float: "right",
     marginTop: "2rem",
   },
   paginatedButton: {
     width: "5%",
+    marginLeft: "1rem",
+  },
+  paginatedTypo: {
+    display: "inline",
+  },
+  product: {
+    // height: "100px",
+    marginTop: theme.spacing(2),
+  },
+  divider: {
+    height: 0,
+    [theme.breakpoints.down("sm")]: {
+      height: theme.spacing(3),
+      position: "relative",
+      top: "-40px",
+    },
   },
 }));
 
@@ -113,9 +148,23 @@ const Products = ({
       >
         {console.log("the data", joggers)}
         {joggers.joggers.map((product) => (
-          <Grid key={product._id} item xs={12} sm={6} md={4} lg={3}>
+          <Grid
+            key={product._id}
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            lg={4}
+            className={classes.gridContainer}
+          >
             {/* {console.log(product)} */}
-            <SimpleCard product={product} log={[1, 2, 3]} />
+            <SimpleCard
+              product={product}
+              // height={"40vh"}
+              log={[1, 2, 3]}
+              className={classes.product}
+            />
+            <Divider className={classes.divider} />
             {/* <Product product={product} onAddToCart={onAddToCart} /> */}
           </Grid>
         ))}
@@ -131,17 +180,17 @@ const Products = ({
           >
             PREV
           </Button>
-          {numberOfPages.map((pageNumber) => {
+
+          <Typography className={classes.paginatedTypo}> 0/4</Typography>
+          {/* {numberOfPages.map((pageNumber) => {
             return (
               <Button variant="outlined" className={classes.paginatedButton}>
                 {" "}
                 {pageNumber}{" "}
               </Button>
             );
-          })}
-          {/* {numberOfPages.map((pageNumber) => {
-            
           })} */}
+
           <Button
             value={!next ? 0 : next.page}
             onClick={(e) => handlePagination(e, searchTerm)}

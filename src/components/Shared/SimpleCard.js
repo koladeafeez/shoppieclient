@@ -26,11 +26,16 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "none",
   },
   media: {
-    height: 150,
+    height: "70%",
     marginBottom: "1rem",
     width: "100%",
+    [theme.breakpoints.down("xs")]: {
+      // height: "70",
+      // height: "60%"
+    },
   },
   contentText: {
+    paddingLeft: "1rem",
     // [theme.breakpoints.down("sm")]: {
     fontSize: "1rem",
     // textAlign: "center",
@@ -54,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: "flex-end",
     width: "3rem",
     margin: 0,
+    marginRight: "2rem",
     backgroundColor: theme.palette.primary.main,
     [theme.breakpoints.down("xs")]: {
       maxWidth: "2rem",
@@ -61,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   productPrice: {
-    textAlign: "center",
+    textAlign: "start",
     alignSelf: "center",
     fontWeight: "bolder",
     [theme.breakpoints.down("xs")]: {
@@ -74,7 +80,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SimpleCard({ product, getJogger, addJoggerToCart }, props) {
+function SimpleCard({ product, getJogger, addJoggerToCart, height }, props) {
+  console.log("[jone width", window.innerWidth);
+  if (window.innerWidth > 600) height = "";
+  console.log(height);
   const classes = useStyles();
   console.log("proddd", product);
   const image = product.images[0]
@@ -145,12 +154,13 @@ function SimpleCard({ product, getJogger, addJoggerToCart }, props) {
     getJogger(product._id);
     // console.log("productid",)
   };
-
+  console.log("product...", product);
+  console.log("check", `/${product.producttype}/${product._id}`);
   // if (product) return <div> Loading...</div>;
   return (
     <Card className={classes.root}>
       <Link
-        to={`/joggers/${product._id}`}
+        to={`/${product.producttype}/${product._id}`}
         className={classes.link}
         onClick={() => {
           console.log("you click me");
@@ -162,13 +172,15 @@ function SimpleCard({ product, getJogger, addJoggerToCart }, props) {
         <img
           className={classes.media}
           src={image}
+          style={{ height: height }}
+          height={height}
           // src={`data:${product.images[0].contentType};base64,${product.images[0].imgSource}`}
           title="Contemplative Reptile"
           alt=""
           // onClick={(e) => handleProductClick(e)}
         />
       </Link>
-      <CardContent style={{ padding: "0 0 24px 0" }}>
+      <CardContent style={{ padding: "0 0 24px 5px" }}>
         <Typography gutterBottom={2} className={classes.contentText} noWrap>
           {product.productname}
         </Typography>
@@ -183,7 +195,7 @@ function SimpleCard({ product, getJogger, addJoggerToCart }, props) {
               component="h2"
               className={`${classes.contentText} ${classes.productPrice}`}
             >
-              {product.price}
+              ₦{product.price}
             </Typography>
           </div>
           <div className={classes.productButtonSection}>

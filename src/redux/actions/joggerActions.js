@@ -101,7 +101,7 @@ export function getAllJoggers(pageNumber = 1, searchTerm = "", price = 0) {
   return (dispatch) => {
     dispatch(getAllJoggersRequest());
     axios
-      .get(PROD_URL, {
+      .get(LOCAL_URL, {
         headers: {
           authorization:
             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNzc2OTY4ZmMyOWE5MWRhNDBhYjMzMSIsInJvbGUiOiJiYXNpYyIsImlhdCI6MTYxODQzODYxNiwiZXhwIjoxNjE4NTI1MDE2fQ.TiCBPES4kTnjnqf-TyNAcfrw4ZgQhtDTAoWU3Gdi_dY",
@@ -127,15 +127,23 @@ export function getAllJoggers(pageNumber = 1, searchTerm = "", price = 0) {
   };
 }
 
-export const getJogger = (productId) => {
-  let PROD_URL = `https://shoppieapi.herokuapp.com/api/product/joggers/${productId}`;
-  let LOCAL_URL = `http://localhost:4000/api/product/joggers/${productId}`;
+export const getJogger = (productId, productType) => {
+  let LOCAL_URL;
+  console.log("in producttype", productType);
+  if (productType === "jogger") {
+    let PROD_URL = `https://shoppieapi.herokuapp.com/api/product/joggers/${productId}`;
+    LOCAL_URL = `http://localhost:4000/api/product/joggers/${productId}`;
+  } else {
+    let PROD_URL = `https://shoppieapi.herokuapp.com/api/product/asookes/${productId}`;
+    LOCAL_URL = `http://localhost:4000/api/product/asookes/${productId}`;
+  }
+
   console.log("productID", productId);
   console.log("URL", URL);
   return (dispatch) => {
     dispatch(getJoggerRequest());
     axios
-      .get(PROD_URL)
+      .get(LOCAL_URL)
       .then((response) => {
         console.log("response is good", response);
         if (response.status === 200 && response.statusText === "OK") {

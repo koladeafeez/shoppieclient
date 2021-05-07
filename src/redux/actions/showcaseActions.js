@@ -26,11 +26,11 @@ export const getShowcaseError = (error) => {
 
 export const getShowcase = () => {
   let PROD_URL = `https://shoppieapi.herokuapp.com/all`;
-  let URL = "http://localhost:4000/all";
+  let LOCAL_URL = "http://localhost:4000/all";
   return (dispatch) => {
     dispatch(getShowcaseRequest());
     axios
-      .get(PROD_URL)
+      .get(LOCAL_URL)
       .then((response) => {
         console.log("response is good", response);
         if (response.status === 200 && response.statusText === "OK") {

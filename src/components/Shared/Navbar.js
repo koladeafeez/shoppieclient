@@ -159,6 +159,8 @@ const useStyles = makeStyles((theme) => ({
   btn1: {
     // marginRight: "0.9rem",
     color: theme.palette.complimentary,
+    margin: "auto",
+    textAlign: "center",
     fontWeight: "bolder",
     [theme.breakpoints.down("xs")]: {
       fontSize: "3vw",
@@ -226,6 +228,7 @@ function PrimarySearchAppBar({
   cartItem,
   onGetSearchTermJoggers,
   onSaveSearch,
+  isLogin,
 }) {
   console.log("layoutitem", cartItem);
   const classes = useStyles();
@@ -245,8 +248,11 @@ function PrimarySearchAppBar({
   const searchForm = useRef();
   const search = useRef();
 
+  console.log("isLOgin", isLogin !== null);
+
   console.log(window.localStorage.getItem("itemCount") === null);
   let localCartNumber = window.localStorage.getItem("itemCount");
+  console.log("localCartNumber", localCartNumber);
   let numberOfItemInCart =
     localCartNumber === null
       ? cartItem.cart.itemNumber
@@ -465,16 +471,25 @@ function PrimarySearchAppBar({
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+
+            {isLogin == null ? (
+              <Link to="/Account" className={classes.link}>
+                <Button variant="text" className={classes.btn1}>
+                  Sign Up
+                </Button>
+              </Link>
+            ) : (
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            )}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
@@ -501,6 +516,7 @@ const mapStateToProps = (state) => {
     cartItem: state,
     joggers: state.showcase.data[1],
     asooke: state.showcase.data[0],
+    isLogin: state.auth.auth,
   };
 };
 

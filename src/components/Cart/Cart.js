@@ -13,6 +13,14 @@ const useStyles = makeStyles((theme) => ({
   sectionContainer: {
     maxWidth: "80%",
     margin: "0 auto",
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "100%",
+    },
+  },
+  cartHeading: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
   table: {
     display: "grid",
@@ -51,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "3rem",
     backgroundColor: "#ffffff",
     height: "5rem",
+    [theme.breakpoints.down("xs")]: {
+      height: "8rem",
+    },
   },
   btn1: {
     minWidth: "30%",
@@ -58,6 +69,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "1rem",
     color: "#f68b1e",
     borderRadius: 0,
+    [theme.breakpoints.down("sm")]: {
+      width: "80%",
+      height: "2rem",
+    },
   },
   btn2: {
     minWidth: "30%",
@@ -65,6 +80,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     backgroundColor: "#f68b1e",
     borderRadius: 0,
+    [theme.breakpoints.down("sm")]: {
+      width: "80%",
+      height: "2.5rem",
+    },
   },
 }));
 
@@ -79,7 +98,10 @@ const Cart = ({ itemNumber, cartItem, getCart, saveItems }) => {
       getCart(localData);
     }
   }, []);
-  cartItem = saveItems.length > 0 ? saveItems : cartItem;
+  if (saveItems.length > 0) {
+    cartItem = [...cartItem, ...saveItems];
+  }
+
   console.log("savedItems", saveItems);
   console.log("cartItemsssss", cartItem);
 
@@ -145,16 +167,16 @@ const Cart = ({ itemNumber, cartItem, getCart, saveItems }) => {
   return (
     <div className={classes.sectionContainer}>
       <Grid container>
-        <Grid item className={classes.productName}>
+        <Grid item className={`${classes.productName} ${classes.cartHeading}`}>
           ITEM
         </Grid>
-        <Grid item className={classes.otherColumn}>
+        <Grid item className={`${classes.otherColumn} ${classes.cartHeading}`}>
           QUANTITY
         </Grid>
-        <Grid item className={classes.otherColumn}>
+        <Grid item className={`${classes.otherColumn} ${classes.cartHeading}`}>
           UNIT PRICE
         </Grid>
-        <Grid item className={classes.otherColumn}>
+        <Grid item className={`${classes.otherColumn} ${classes.cartHeading}`}>
           SUB TOTAL
         </Grid>
         {cartItem.map((item) => {

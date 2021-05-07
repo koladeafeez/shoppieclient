@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   cartItem: cartItemReducer,
   joggers: getAllJoggersReducer,
-  jogger: getJoggerReducer,
+  product: getJoggerReducer,
   signUp: signupReducer,
   auth: loginReducer,
   searchTerm: searchReducer,

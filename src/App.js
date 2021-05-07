@@ -13,6 +13,7 @@ import UserAccount from "./components/Account/Account";
 import Home from "./components/Home/Home";
 import Layout from "./components/Shared/Layout";
 import DetailsLayout from "./components/Shared/DetailsLayout";
+import { CreateProduct } from "./components/Admin/CreateProduct";
 
 const theme = createMuiTheme({
   palette: {
@@ -117,7 +118,7 @@ const App = () => {
               {/* </Route> */}
 
               <Route
-                path="/joggers/:id"
+                path="/jogger/:id"
                 render={(routeProps) => (
                   <ProductDetails routeProps={routeProps} />
                 )}
@@ -131,6 +132,9 @@ const App = () => {
               </Route>
               <Route path="/Account" exact>
                 <UserAccount />
+              </Route>
+              <Route path="/Create" exact>
+                <CreateProduct />
               </Route>
             </Layout>
           </Switch>

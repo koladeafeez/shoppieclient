@@ -36,6 +36,7 @@ export const cartReducer = (state = cartInitialState, action) => {
   switch (action.type) {
     case ADD_ITEM_TO_CART:
       let old = window.localStorage.getItem("itemCount");
+      if (old === null) old = 0;
       window.localStorage.setItem("itemCount", parseInt(old) + 1);
       return {
         ...state,

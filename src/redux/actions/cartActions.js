@@ -57,7 +57,7 @@ export function getItemInCart(data) {
   return (dispatch) => {
     dispatch(getCartItemRequest());
     let PROD_URL = `https://shoppieapi.herokuapp.com/api/cart`;
-    let URL = "http://localhost:4000/api/cart";
+    let LOCAL_URL = "http://localhost:4000/api/cart";
     // fetch(URL, {
     //   method: "POST",
     //   headers: {
@@ -73,7 +73,7 @@ export function getItemInCart(data) {
     // dispatch(loginRequest());
     // try {
     axios
-      .post(PROD_URL, data, {
+      .post(LOCAL_URL, data, {
         headers: {
           "Content-Type": "application/json",
         },

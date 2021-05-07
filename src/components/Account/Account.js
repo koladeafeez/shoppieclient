@@ -28,19 +28,27 @@ const Account = () => {
 
   return (
     <div className="root-container">
-      <div
-        className={"controller " + (isLoginOpen ? "selected-controller" : "")}
-        onClick={showLoginBox}
-      >
-        Login
-      </div>
-      <div
-        className={
-          "controller " + (isRegisterOpen ? "selected-controller" : "")
-        }
-        onClick={showRegisterBox}
-      >
-        Register
+      <div className="boxtypeContainer">
+        <div
+          className={
+            "controller " +
+            "login " +
+            (isLoginOpen ? "selected-controller" : "")
+          }
+          onClick={showLoginBox}
+        >
+          Login
+        </div>
+        <div
+          className={
+            "controller " +
+            "register " +
+            (isRegisterOpen ? "selected-controller" : "")
+          }
+          onClick={showRegisterBox}
+        >
+          Register
+        </div>
       </div>
       <div className="box-container">
         {isLoginOpen && <LoginBox />}

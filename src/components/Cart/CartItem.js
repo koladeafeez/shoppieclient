@@ -26,26 +26,77 @@ const useStyles = makeStyles((theme) => ({
       "0px 2px 1px -1px rgb(0 0 0 / 10%), 0px 1px 1px 0px rgb(0 0 0 / 7%), 0px 1px 3px 0px rgb(0 0 0 / 6%)",
     marginBottom: theme.spacing(2),
     backgroundColor: "#ffffff",
-    maxHeight: "6rem",
+    maxHeight: "8rem",
+    [theme.breakpoints.down("sm")]: {
+      minHeight: "10rem",
+      maxHeight: "100rem",
+    },
   },
-  productName: {
-    width: "40%",
-  },
+
+  secondColumn: {},
+
+  // productName: {
+  //   width: "40%",
+  // },
   otherColumn: {
-    width: "20%",
-    paddingTop: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+      paddingLeft: "1rem",
+    },
+  },
+  select: {
+    [theme.breakpoints.down("sm")]: {
+      float: "right",
+    },
+  },
+  selectGrid: {
+    [theme.breakpoints.down("sm")]: {
+      order: 2,
+      paddingRight: "2rem",
+      marginTop: "1.2rem",
+    },
+  },
+  priceGrid: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+  smButton: {
+    display: "none",
+    [theme.breakpoints.down("sm")]: {
+      display: "block",
+      marginTop: "1.5rem",
+    },
+  },
+
+  lgButton: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
   firstColumn: {
-    display: "flex",
-    justifyContent: "space-between",
+    height: "80%",
+    // display: "flex",
+    // justifyContent: "space-between",
   },
+
   productImage: {
-    width: "20%",
+    height: "100%",
   },
-  productDetails: {
-    width: "70%",
+  // productDetails: {
+  //   width: "70%",
+  // },
+  image: {
+    width: "100%",
+    height: "80%",
   },
+
+  unitPrice: {
+    [theme.breakpoints.down("sm")]: {
+      paddingTop: "1rem",
+    },
+  },
+
   name: {
     fontSize: "16px",
     // fontWeight: 500,
@@ -70,6 +121,9 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     marginRight: "2rem",
     // marginLeft: "100%",
+    [theme.breakpoints.down("sm")]: {
+      float: "none",
+    },
   },
   qltyP: {
     paddingLeft: theme.spacing(2),
@@ -127,77 +181,89 @@ const CartItem = ({ product, onUpdateCartQty, onRemoveFromCart }) => {
     // </Paper>
 
     <Grid container className={classes.container} elevation={2}>
-      <Grid item className={`${classes.productName} ${classes.firstColumn}`}>
+      <Grid
+        item
+        className={`${classes.productName} ${classes.firstColumn}`}
+        md={2}
+        xs={4}
+      >
         <div className={classes.productImage}>
-          <img src={img} width="100%" height="80%" alt="" />
-        </div>
-        <div className={classes.productDetails}>
-          {" "}
-          <Typography>first row</Typography>
-          <Typography className={classes.name}>
-            {product.productname}
-          </Typography>
-          <Typography className={classes.size}>Size</Typography>
-          <Typography>{product.shortdetails}</Typography>
-          <IconButton className={classes.button}>
+          <img src={img} alt="" className={classes.image} />
+          <IconButton className={`${classes.button} ${classes.smButton}`}>
             {" "}
             <DeleteIcon></DeleteIcon> REMOVE{" "}
           </IconButton>
         </div>
       </Grid>
-      {/* <Divider orientation="vertical" /> */}
-      <Grid item className={classes.otherColumn}>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          value={quantity}
-          onChange={handleQuantityChange}
-          className={classes.select}
-          // label="Age"
-        >
-          <MenuItem
-            value="1"
-            style={{ backgroundColor: "#212121", color: "#ffffff" }}
-          >
-            1
-          </MenuItem>
-          <MenuItem
-            value="2"
-            style={{ backgroundColor: "#212121", color: "#ffffff" }}
-          >
-            2
-          </MenuItem>
-          <MenuItem
-            value="3"
-            style={{ backgroundColor: "#212121", color: "#ffffff" }}
-          >
-            3
-          </MenuItem>
-          <MenuItem
-            value="4"
-            style={{ backgroundColor: "#212121", color: "#ffffff" }}
-          >
-            4
-          </MenuItem>
-        </Select>
-
-        {/* <IconButton>
+      <Grid item className={classes.secondcolumn} md={10} xs={8}>
+        <Grid container className={classes.otherColumn}>
+          <Grid item md={3}>
+            <div className={classes.productDetails}>
+              {" "}
+              <Typography>first row</Typography>
+              <Typography className={classes.name}>
+                {product.productname}
+              </Typography>
+              <Typography className={classes.size}>Size</Typography>
+              <Typography>{product.shortdetails}</Typography>
+              <IconButton className={`${classes.button} ${classes.lgButton}`}>
+                {" "}
+                <DeleteIcon></DeleteIcon> REMOVE{" "}
+              </IconButton>
+            </div>
+          </Grid>
+          <Grid item className={classes.selectGrid} md={3}>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={quantity}
+              onChange={handleQuantityChange}
+              className={classes.select}
+              // label="Age"
+            >
+              <MenuItem
+                value="1"
+                style={{ backgroundColor: "#212121", color: "#ffffff" }}
+              >
+                1
+              </MenuItem>
+              <MenuItem
+                value="2"
+                style={{ backgroundColor: "#212121", color: "#ffffff" }}
+              >
+                2
+              </MenuItem>
+              <MenuItem
+                value="3"
+                style={{ backgroundColor: "#212121", color: "#ffffff" }}
+              >
+                3
+              </MenuItem>
+              <MenuItem
+                value="4"
+                style={{ backgroundColor: "#212121", color: "#ffffff" }}
+              >
+                4
+              </MenuItem>
+            </Select>
+            {/* <IconButton>
           <AddIcon />
         </IconButton>
         <Typography className={classes.qltyP}>1</Typography>
         <IconButton>
           <RemoveIcon />
         </IconButton> */}
-      </Grid>
-      {/* <Divider orientation="vertical" flexItem /> */}
-      <Grid item className={classes.otherColumn}>
-        <Typography>$2000</Typography>
-      </Grid>
-      {/* <Divider orientation="vertical" /> */}
-      <Grid item className={classes.otherColumn}>
-        <Typography style={{ color: "#f68b1e" }}>$2000</Typography>
+          </Grid>
+          <Grid item className={classes.priceGrid} md={3}>
+            <Typography>$2000</Typography>
+          </Grid>
+          <Grid item className={classes.unitPrice} md={3}>
+            <Typography style={{ color: "#f68b1e" }}>$2000</Typography>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
+    // </Grid>
   );
 };
 

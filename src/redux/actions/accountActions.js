@@ -57,7 +57,7 @@ export const signUp = (registrationDetails) => {
     dispatch(signupRequest());
     // try {
     axios
-      .post(PROD_URL, registrationDetails, {
+      .post(LOCAL_URL, registrationDetails, {
         headers: {
           contentType: "application/json",
         },
@@ -78,12 +78,12 @@ export const signUp = (registrationDetails) => {
 
 export const logIn = (loginDetails) => {
   let PROD_URL = `https://shoppieapi.herokuapp.com/api/account/login`;
-  let URL = "http://localhost:4000/api/account/login";
+  let DEV_URL = "http://localhost:4000/api/account/login";
   return (dispatch) => {
     dispatch(loginRequest());
     // try {
     axios
-      .post(PROD_URL, loginDetails, {
+      .post(DEV_URL, loginDetails, {
         headers: {
           contentType: "application/json",
         },
