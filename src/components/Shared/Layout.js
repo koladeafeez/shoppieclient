@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import showcasejoggerimg from "../../assets/21634258-5.jpg";
 import showcaseasookeimg from "../../assets/Agbadaa_2000x.jpg";
 import imgBack from "../../assets/clothing-header-image.jpg";
-import joggerBack from "../../assets/jogger.png";
-import asookeBack from "../../assets/aso-oke2.jpg";
+import joggerBack from "../../assets/joggers.jpg";
+import asookeBack from "../../assets/asooke.jpg";
 import {
   Drawer,
   Typography,
@@ -33,11 +33,27 @@ import Slider from "@material-ui/core/Slider";
 import { findByLabelText } from "@testing-library/dom";
 import { getAllJoggers } from "../../redux/actions/joggerActions";
 // import "./layout.css";
+import { Link } from "react-router-dom";
 
 const drawerWidth = "200px";
 
-let productTypeBgImg =
-  window.location.pathname === "/joggers" ? joggerBack : asookeBack;
+let productTypeBgImg;
+if (window.location.pathname === "/joggers") {
+  productTypeBgImg = joggerBack;
+} else {
+  productTypeBgImg = asookeBack;
+}
+
+let isHome;
+let isProduct;
+if (window.location.pathname === "/") {
+  isHome = "none";
+  isProduct = "block";
+} else {
+  isHome = "block";
+  isProduct = "none";
+}
+console.log("product type img", productTypeBgImg);
 
 function valuetext(value) {
   return `${value}°C`;
@@ -84,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
   showCaseProductAll: {
     minHeight: "30vh",
     width: "100%",
-    opacity: 0.2,
+    opacity: 1,
     display: "flex",
     justifyContent: "center",
     marginTop: theme.spacing(10),
@@ -100,6 +116,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   showcaseHome: {
+    // fontFamily: "Farro sans-serif",
+    fontFamily: "Anton, sans-serif",
     minHeight: "80vh",
     width: "100%",
     display: "flex",
@@ -140,6 +158,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   showcaseProductNav: {
+    lineHeight: "4rem",
+    textAlign: "center",
     // position: " absolute",
     // display: "flex",
     // flexWrap: "wrap",
@@ -152,57 +172,102 @@ const useStyles = makeStyles((theme) => ({
       // left: "30%",
     },
   },
-  showcaseProductHozDiv: {
+  showcaseProductHozDiv1: {
     width: "100%",
-    backgroundColor: "#000",
+    backgroundColor: theme.palette.primary.main,
     height: "50px",
     marginBottom: "1rem",
-    // position: "absolute",
-    // bottom: 0,
-    // animation: `$slide ${theme.transitions.easing.easeInOut}`,
-    // "@keyframes slide": {
-    //   "0%": {
-    //     marginLeft: "0px",
-    //   },
-    //   "50%": {
-    //     marginLeft: "-100px",
-    //   },
-    //   "100%": {
-    //     marginLeft: "-200px",
-    //   },
-    // },
+    [theme.breakpoints.down("xs")]: {
+      height: "30px",
+      paddingBottom: "1rem",
+    },
+  },
+  showcaseProductHozDiv2: {
+    width: "100%",
+    // backgroundColor: theme.,
+    height: "10vh",
+    marginBottom: "1rem",
   },
 
   hoz1: {
     float: "left",
     paddingLeft: "3rem",
     paddingTop: "1rem",
+    [theme.breakpoints.down("xs")]: {
+      paddingLeft: "1rem",
+    },
   },
   hoz2: {
     float: "right",
     paddingRight: "3rem",
     paddingTop: "1rem",
     display: "absolute",
+    fontFamily: "Source Serif Pro, serif",
+    fontSize: "1.3rem",
+    fontWeight: 700,
+    [theme.breakpoints.down("xs")]: {
+      paddingRight: "1rem",
+    },
+  },
+  hoz22: {
+    textTransform: "capitalize",
+    paddingLeft: "1rem",
+    paddingTop: "1rem",
+    fontFamily: "Source Serif Pro, serif",
+    fontSize: "1.3rem",
+    fontWeight: 700,
+    textDecoration: "underline",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: ".9rem",
+    },
+  },
+
+  hozDivFirstGridNav: {
+    fontFamily: "Source Serif Pro, serif",
+    fontSize: "1rem",
+    textDecoration: "none",
+  },
+  hozDivFirstGridTypo: {
+    fontFamily: "Source Serif Pro, serif",
+    fontSize: "1.3rem",
+    fontWeight: 700,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: ".7rem",
+    },
   },
 
   showcaseProductH1: {
+    fontSize: "xxx-large",
+    letterSpacing: ".2rem",
     width: "100%",
     margin: 0,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "x-large",
+    },
   },
   showcaseProductH3: {
     width: "100%",
     margin: 0,
-    color: "#fff",
+    color: "gray",
   },
   showcaseProductBtn: {
+    fontFamily: "inherit",
+    letterSpacing: ".2rem",
+    marginLeft: "1rem",
+    marginRight: "1rem",
+    borderRadius: 0,
     margin: "auto",
-    backgroundColor: "#FFA25F",
+    backgroundColor: theme.palette.showCaseButton,
     width: "12rem",
     height: "3rem",
     [theme.breakpoints.down("sm")]: {
       margin: "auto",
       marginTop: "2rem",
-      width: "12rem",
+      width: "9rem",
+      fontSize: "0.8rem",
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "5rem",
     },
   },
 
@@ -462,13 +527,21 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
             <Grid item md={2} id="sidebar" className={classes.sidebarProduct}>
               <Paper>
                 <div>
-                  <Typography id="range-slider" gutterBottom>
+                  <Typography
+                    id="range-slider"
+                    gutterBottom
+                    style={{ fontFamily: "Holtwood One SC" }}
+                  >
                     DELIVERY
                   </Typography>
                   <Divider />
                 </div>
                 <div>
-                  <Typography id="range-slider" gutterBottom>
+                  <Typography
+                    id="range-slider"
+                    gutterBottom
+                    style={{ fontFamily: "Abril Fatface " }}
+                  >
                     Choose Your Location
                   </Typography>
                   <FormControl
@@ -484,6 +557,7 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
                       value={deliveryState}
                       onChange={handleChange2}
                       className={classes.select}
+                      style={{ fontFamily: "Oxygen " }}
                       // label="Age"
                     >
                       {/* <div> */}
@@ -495,19 +569,31 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
                       </MenuItem> */}
                       <MenuItem
                         value="lagos"
-                        style={{ backgroundColor: "#212121", color: "#ffffff" }}
+                        style={{
+                          backgroundColor: "#212121",
+                          color: "#ffffff",
+                          fontFamily: "Oxygen ",
+                        }}
                       >
                         LAGOS
                       </MenuItem>
                       <MenuItem
                         value="osun"
-                        style={{ backgroundColor: "#212121", color: "#ffffff" }}
+                        style={{
+                          backgroundColor: "#212121",
+                          color: "#ffffff",
+                          fontFamily: "Oxygen ",
+                        }}
                       >
                         OSUN
                       </MenuItem>
                       <MenuItem
                         value="oyo"
-                        style={{ backgroundColor: "#212121", color: "#ffffff" }}
+                        style={{
+                          backgroundColor: "#212121",
+                          color: "#ffffff",
+                          fontFamily: "Oxygen ",
+                        }}
                       >
                         OYO
                       </MenuItem>
@@ -523,19 +609,31 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
                     >
                       <MenuItem
                         value="ikeja"
-                        style={{ backgroundColor: "#212121", color: "#ffffff" }}
+                        style={{
+                          backgroundColor: "#212121",
+                          color: "#ffffff",
+                          fontFamily: "Oxygen ",
+                        }}
                       >
                         IKEJA
                       </MenuItem>
                       <MenuItem
                         value="berger"
-                        style={{ backgroundColor: "#212121", color: "#ffffff" }}
+                        style={{
+                          backgroundColor: "#212121",
+                          color: "#ffffff",
+                          fontFamily: "Oxygen ",
+                        }}
                       >
                         BERGER
                       </MenuItem>
                       <MenuItem
                         value="oshodi"
-                        style={{ backgroundColor: "#212121", color: "#ffffff" }}
+                        style={{
+                          backgroundColor: "#212121",
+                          color: "#ffffff",
+                          fontFamily: "Oxygen ",
+                        }}
                       >
                         OSHODI
                       </MenuItem>
@@ -545,9 +643,15 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
                 </div>
                 <div style={{ marginTop: "2rem" }}>
                   {window.innerWidth < 400 ? (
-                    <Button>
+                    <Button
+                      style={{ backgroundColor: "#2268DD" }}
+                      href="tel:+2348035962944"
+                    >
                       {" "}
-                      <CallIcon /> <Typography>Call To Order</Typography>
+                      <CallIcon style={{ color: "blue" }} />{" "}
+                      <Typography style={{ fontFamily: "Anton" }}>
+                        Call To Order
+                      </Typography>
                     </Button>
                   ) : (
                     <>
@@ -592,6 +696,7 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
               <Button
                 variant="contained"
                 className={classes.showcaseProductBtn}
+                style={{ marginLeft: "1.5rem" }}
               >
                 Shop AsooKes{" "}
               </Button>
@@ -615,15 +720,46 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
               />
             </div> */}
           </Paper>
-          <div className={classes.showcaseProductHozDiv}>
-            <div className={classes.hoz1}>
-              {" "}
-              <Typography>Easy Delivery</Typography>{" "}
+
+          {window.location.pathname === "/" ? (
+            <div className={classes.showcaseProductHozDiv1}>
+              <div className={classes.hoz1}>
+                <Typography className={classes.hozDivFirstGridTypo}>
+                  Complete Collection At Discount Price &#128525;
+                </Typography>{" "}
+              </div>
+              <div className={classes.hoz2}>
+                <Typography className={classes.hozDivFirstGridTypo}>
+                  Easy Delivery
+                </Typography>
+              </div>
             </div>
-            <div className={classes.hoz2}>
-              <Typography>Easy Delivery</Typography>
+          ) : (
+            <div className={classes.showcaseProductHozDiv2}>
+              {window.innerWidth > 500 ? (
+                <div className={classes.hoz1}>
+                  <Typography className={classes.hozDivFirstGridNav}>
+                    <Link
+                      to="/"
+                      style={{ textDecoration: "none", color: "#002EAD" }}
+                    >
+                      Home
+                    </Link>{" "}
+                    {">"}{" "}
+                    <Link style={{ textDecoration: "none", color: "#002EAD" }}>
+                      Joggers
+                    </Link>
+                  </Typography>
+                </div>
+              ) : (
+                <div>
+                  <Typography className={classes.hoz22}>
+                    {window.location.pathname} Collections
+                  </Typography>
+                </div>
+              )}
             </div>
-          </div>
+          )}
           <Container>
             <Grid container className={classes.contentLayoutContainer}>
               <Grid
@@ -638,7 +774,10 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
                     <Typography
                       id="range-slider"
                       gutterBottom
-                      style={{ fontWeight: "bolder" }}
+                      style={{
+                        fontWeight: "bold",
+                        fontFamily: "Abril Fatface, Sans-serif",
+                      }}
                     >
                       PRICE (₦)
                     </Typography>
@@ -682,10 +821,11 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
                     </Grid> */}
                     </Grid>
                     <Button
+                      style={{ color: "#2268DD", marginBottom: "1rem" }}
                       variant="contained"
                       onClick={() => handleSort(value)}
                     >
-                      filter
+                      Apply
                     </Button>
                     {sort === true ? (
                       <div className={classes.sort}>
@@ -699,11 +839,17 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
                     )}
                   </div>
 
-                  <Divider />
+                  <Divider style={{ backgroundColor: "gray" }} />
                   <List>
-                    <Typography style={{ fontWeight: "bold" }}>
+                    <Typography
+                      style={{
+                        fontWeight: "bold",
+                        fontFamily: "Holtwood One SC",
+                      }}
+                    >
                       Categories
                     </Typography>
+
                     <div className={classes.categoryContainer}>
                       {[
                         "short",
@@ -720,6 +866,10 @@ const Layout = ({ children, cartItem, onGetAllJoggers }) => {
                           <Button
                             variant="contained"
                             className={classes.categorieslinks}
+                            style={{
+                              fontFamily: "PT Sans",
+                              fontWeight: "bolder",
+                            }}
                           >
                             {text}
                           </Button>

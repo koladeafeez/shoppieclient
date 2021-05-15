@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
+import { connect } from "react-redux";
 import {
   Typography,
   Button,
@@ -19,6 +20,12 @@ import {
 import { makeStyles } from "@material-ui/styles";
 
 import img from "../../assets/christopher-czermak-ulG2K7id26s-unsplash.jpg";
+import {
+  // handleCartLoad,
+  handleQuantityChange,
+  handleTotalChange,
+  removeItemFromCart,
+} from "../../redux/actions/cartActions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     backgroundColor: "#ffffff",
     maxHeight: "8rem",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       minHeight: "10rem",
-      maxHeight: "100rem",
+      height: "100rem",
     },
   },
 
@@ -87,8 +94,9 @@ const useStyles = makeStyles((theme) => ({
   //   width: "70%",
   // },
   image: {
-    width: "100%",
+    width: "auto",
     height: "80%",
+    paddingLeft: "2rem",
   },
 
   unitPrice: {
@@ -129,57 +137,119 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
   },
 }));
-// import useStyles from "../../styles/CartItemstyles";
 
-const CartItem = ({ product, onUpdateCartQty, onRemoveFromCart }) => {
+const CartItem = ({
+  product,
+  cartQty,
+  parentCallback,
+  totalPrice,
+  onUpdateCartQty,
+  onRemoveFromCart,
+  removeItemFromCart,
+  handleQtyChange,
+  handleTlChange,
+}) => {
   const classes = useStyles();
-  const [quantity, setQuantity] = useState(1);
 
-  const handleQuantityChange = (e) => {
-    setQuantity(e.target.value);
+  // const [quantity, setQuantity] = useState(1);
+
+  // const [subTotal, setSubTotal] = useState(quantity);
+
+  const onTrigger = (total) => {
+    // e.preventDefault();
+    parentCallback(total);
   };
 
-  const handleUpdateCartQty = (lineItemId, newQuantity) =>
-    onUpdateCartQty(lineItemId, newQuantity);
+  useEffect(() => {
+    let savedData = localStorage.getItem("cartItem");
+    let parsedData = JSON.parse(savedData);
+    console.log("parsedDDD", parsedData);
+    if (parsedData.length > 0) {
+      // parsedData.forEach((elm) => {
+      //   if (elm._id == product._id) {
+      //     setQuantity(parseInt(elm.unit));
+      //     setSubTotal(product.price * elm.unit);
+      //     console.log("elmUnit", elm.unit);
+      //   }
+      //   console.log("quantitu", quantity);
+      // });
 
-  const handleRemoveFromCart = (lineItemId) => onRemoveFromCart(lineItemId);
+      handleTlChange(product.price);
+      // }
+
+      // console.log("ahhh", quantity);
+      // setSubTotal(product.price * quantity);
+    }
+    // console.log("last chance", quantity);
+  }, []);
+
+  let quantity;
+  cartQty.forEach((elm) => {
+    if (elm._id === product._id) {
+      quantity = elm.unit;
+      console.log("qty", quantity);
+    }
+  });
+
+  console.log("quantuiiii", quantity);
+
+  // console.log("ahhh", quantity);
+
+  // handleCrtLoad(product.price * quantity, product._id);
+  // handleTlChange();
+
+  const handleQuantityChange = (e, productId) => {
+    // console.log("ahhh", quantity);
+    // setQuantity(e.target.value);
+
+    // let newSubTotal = parseInt(e.target.value) * product.price;
+    console.log(e.target.value);
+    handleQtyChange(productId, parseInt(e.target.value));
+    handleTlChange(product.price);
+
+    // setSubTotal(newSubTotal);
+
+    let stringifyData;
+    let savedData = localStorage.getItem("cartItem");
+    let parsedData = JSON.parse(savedData);
+    parsedData.forEach((elm, i) => {
+      if (elm._id === productId) {
+        elm.unit = parseInt(e.target.value);
+        console.log(elm._id);
+      }
+    });
+
+    localStorage.setItem("cartItem", JSON.stringify(parsedData));
+  };
+
+  const handleRemoveFromCart = async (e, productId, productType) => {
+    e.preventDefault();
+
+    let stringifyData;
+
+    if (localStorage.getItem("cartItem")) {
+      console.log("not empty");
+      //true
+      let savedData = localStorage.getItem("cartItem");
+      let parsedData = JSON.parse(savedData);
+
+      parsedData.forEach((elm, i) => {
+        if (elm._id == productId) {
+          parsedData.splice(i, 1);
+        }
+      });
+      stringifyData = JSON.stringify(parsedData);
+
+      window.localStorage.setItem("cartItem", stringifyData);
+    }
+
+    removeItemFromCart(productId, productType);
+  };
+  const image = product.images[0]
+    ? `data:image/jpeg;base64,${product.images[0].imgSource}`
+    : "";
 
   return (
-    // <Card className="cart-item">
-    //   <CardMedia image={item.media.source} alt={item.name} className={classes.media} />
-    //   <CardContent className={classes.cardContent}>
-    //     <Typography variant="h4">{item.name}</Typography>
-    //     <Typography variant="h5">{item.line_total.formatted_with_symbol}</Typography>
-    //   </CardContent>
-    //   <CardActions className={classes.cardActions}>
-    //     <div className={classes.buttons}>
-    //       <Button type="button" size="small" onClick={() => handleUpdateCartQty(item.id, item.quantity - 1)}>-</Button>
-    //       <Typography>&nbsp;{item.quantity}&nbsp;</Typography>
-    //       <Button type="button" size="small" onClick={() => handleUpdateCartQty(item.id, item.quantity + 1)}>+</Button>
-    //     </div>
-    //     <Button variant="contained" type="button" color="secondary" onClick={() => handleRemoveFromCart(item.id)}>Remove</Button>
-    //   </CardActions>
-    // </Card>
-
-    // <Paper>
-    // <ul>
-    //   <li>
-    //     <Typography>image</Typography>
-    //     <Typography>Product Name</Typography>
-    //     <Typography>Product Size </Typography>
-    //     <Typography>Location for pick up</Typography>
-    //     <Button> Remove </Button>
-    //   </li>
-    //   <li>
-    //     <Typography>1</Typography>
-    //   </li>
-    //   <li>
-    //     <Typography> #4000 </Typography>
-    //   </li>
-    //   <li> #4000 </li>
-    // </ul>
-    // </Paper>
-
     <Grid container className={classes.container} elevation={2}>
       <Grid
         item
@@ -188,8 +258,14 @@ const CartItem = ({ product, onUpdateCartQty, onRemoveFromCart }) => {
         xs={4}
       >
         <div className={classes.productImage}>
-          <img src={img} alt="" className={classes.image} />
-          <IconButton className={`${classes.button} ${classes.smButton}`}>
+          <img src={image} alt="" className={classes.image} />
+          <IconButton
+            style={{ fontFamily: "Holtwood One SC" }}
+            className={`${classes.button} ${classes.smButton}`}
+            onClick={(e) =>
+              handleRemoveFromCart(e, product._id, product.producttype)
+            }
+          >
             {" "}
             <DeleteIcon></DeleteIcon> REMOVE{" "}
           </IconButton>
@@ -200,13 +276,22 @@ const CartItem = ({ product, onUpdateCartQty, onRemoveFromCart }) => {
           <Grid item md={3}>
             <div className={classes.productDetails}>
               {" "}
-              <Typography>first row</Typography>
-              <Typography className={classes.name}>
+              <Typography>{product.shortdetails}</Typography>
+              <Typography
+                className={classes.name}
+                style={{ fontFamily: "Source Serif Pro" }}
+              >
                 {product.productname}
               </Typography>
               <Typography className={classes.size}>Size</Typography>
               <Typography>{product.shortdetails}</Typography>
-              <IconButton className={`${classes.button} ${classes.lgButton}`}>
+              <IconButton
+                style={{ fontFamily: "Holtwood One SC" }}
+                className={`${classes.button} ${classes.lgButton}`}
+                onClick={(e) =>
+                  handleRemoveFromCart(e, product._id, product.producttype)
+                }
+              >
                 {" "}
                 <DeleteIcon></DeleteIcon> REMOVE{" "}
               </IconButton>
@@ -217,7 +302,7 @@ const CartItem = ({ product, onUpdateCartQty, onRemoveFromCart }) => {
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
               value={quantity}
-              onChange={handleQuantityChange}
+              onChange={(e) => handleQuantityChange(e, product._id)}
               className={classes.select}
               // label="Age"
             >
@@ -254,11 +339,20 @@ const CartItem = ({ product, onUpdateCartQty, onRemoveFromCart }) => {
           <RemoveIcon />
         </IconButton> */}
           </Grid>
-          <Grid item className={classes.priceGrid} md={3}>
-            <Typography>$2000</Typography>
+          <Grid
+            item
+            className={classes.priceGrid}
+            style={{ fontFamily: "Anton" }}
+            md={3}
+          >
+            <Typography style={{ fontFamily: "Anton" }}>
+              ₦{product.price}
+            </Typography>
           </Grid>
           <Grid item className={classes.unitPrice} md={3}>
-            <Typography style={{ color: "#f68b1e" }}>$2000</Typography>
+            <Typography style={{ color: "#f68b1e", fontFamily: "Anton" }}>
+              ₦{quantity * product.price}
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
@@ -267,4 +361,24 @@ const CartItem = ({ product, onUpdateCartQty, onRemoveFromCart }) => {
   );
 };
 
-export default CartItem;
+const mapStateToProps = (state) => {
+  console.log("at cart Item", state);
+  return {
+    cartQty: state.cartItem.cartQty,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  console.log("dispatch", dispatch);
+  return {
+    removeItemFromCart: (productId, productType) =>
+      dispatch(removeItemFromCart(productId, productType)),
+    // handleCrtLoad: (newQty, productId) =>
+    //   dispatch(handleCartLoad(newQty, productId)),
+    handleTlChange: (price) => dispatch(handleTotalChange(price)),
+    handleQtyChange: (productId, newUnit) =>
+      dispatch(handleQuantityChange(productId, newUnit)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartItem);

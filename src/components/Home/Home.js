@@ -43,8 +43,9 @@ const useStyles = makeStyles((theme) => ({
     // margin: "10px 5rem",
   },
   slideShowAnchor: {
+    fontFamily: "PT Sans cursive Sans-serif",
+
     color: "#444",
-    fontFamily: "sofia-pro,sans-serif",
     fontSize: "12px",
     letterSpacing: ".05em",
     lineHeight: "24px",
@@ -66,8 +67,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   slideShowImg: {
-    [theme.breakpoints.down("sm")]: {
-      // height: "30vh",
+    [theme.breakpoints.down("xs")]: {
+      height: "80%",
     },
     height: "90%",
     width: "100%",
@@ -120,6 +121,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1rem",
     fontWeight: "bolder",
     paddingLeft: "2rem",
+    fontFamily: "Abril Fatface, cursive, Sans-serif",
     // marginBottom: "1rem",
     // },
 
@@ -130,6 +132,8 @@ const useStyles = makeStyles((theme) => ({
     float: "right",
     color: theme.palette.complimentary,
     fontWeight: "bolder",
+    fontFamily: "Abril Fatface, cursive, Sans-serif",
+
     // marginRight: 10,
   },
 
@@ -195,25 +199,25 @@ const Home = (
 
   useEffect(() => {
     getAllJoggers();
-    axios
-      .get("http://localhost:4000/all")
-      .then((response) => {
-        console.log("response is good", response);
-        if (response.status === 200 && response.statusText === "OK") {
-          console.log("response bodys", response.data);
-          //   alert("Registration Successful!" + response.data.data);
-          //   console.log(response.data.data);
-          // dispatch(getAllJoggersSuccess(response.data));
-          return;
-        } else if (response.status === 200 && response.statusText !== "OK") {
-          // alert('Registration Failed' + response.data.data)
-          // dispatch(getAllJoggersError);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        //handle error
-      });
+    // axios
+    //   .get("http://localhost:4000/all")
+    //   .then((response) => {
+    //     console.log("response is good", response);
+    //     if (response.status === 200 && response.statusText === "OK") {
+    //       console.log("response bodys", response.data);
+    //       //   alert("Registration Successful!" + response.data.data);
+    //       //   console.log(response.data.data);
+    //       // dispatch(getAllJoggersSuccess(response.data));
+    //       return;
+    //     } else if (response.status === 200 && response.statusText !== "OK") {
+    //       // alert('Registration Failed' + response.data.data)
+    //       // dispatch(getAllJoggersError);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     //handle error
+    //   });
   }, []);
 
   const container = useRef();

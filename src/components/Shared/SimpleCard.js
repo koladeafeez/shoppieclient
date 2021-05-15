@@ -8,12 +8,14 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import img from "../../assets/christopher-czermak-ulG2K7id26s-unsplash.jpg";
+import "../../font.css";
 
 import { AddShoppingCart } from "@material-ui/icons";
 import { connect } from "react-redux";
 import {
   addItemToCart,
   addJoggerToCart,
+  removeItemFromCart,
   addToCart,
 } from "./../../redux/actions/cartActions";
 // import { getJogger } from "../../redux/actions/joggerActions";
@@ -35,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   contentText: {
+    fontFamily: "Oswald sans-serif",
     paddingLeft: "1rem",
     // [theme.breakpoints.down("sm")]: {
     fontSize: "1rem",
@@ -89,22 +92,7 @@ function SimpleCard({ product, getJogger, addJoggerToCart, height }, props) {
   const image = product.images[0]
     ? `data:image/jpeg;base64,${product.images[0].imgSource}`
     : "";
-  // images[0].img.data.toString("base64"));
-  // const chec = `data:image/png`
-  // let con = product.images[0].data;
-  // console.log("ccc array", con);
-  // console.log("con array data", con.toString());
-  // console.log("cccccccc", con.toString());
 
-  // const imgs = ;
-  // console.log(product.images[0].contentType);
-  // console.log(imgs);
-
-  // const test = `data:image/png;base64,${product.images[0].img.data.toString(
-  //   "base64"
-  // )}`;
-
-  // console.log(window.location.pathname);
   const location = window.location.pathname;
 
   const handleAddToCart = async (e) => {
@@ -124,7 +112,12 @@ function SimpleCard({ product, getJogger, addJoggerToCart, height }, props) {
       console.log("parsedData", parsedData);
       // let addToSave = parsedData.push({ _id: "hdhuuuh", type: "joggers" });
       // console.log("new Data", addToSave);
-      parsedData.push({ _id: product._id, type: "joggers" });
+      parsedData.push({
+        _id: product._id,
+        type: "joggers",
+        unit: 1,
+        price: product.price,
+      });
       stringifyData = JSON.stringify(parsedData);
 
       console.log("new", parsedData);
@@ -134,7 +127,9 @@ function SimpleCard({ product, getJogger, addJoggerToCart, height }, props) {
       console.log("empty");
       window.localStorage.setItem(
         "cartItem",
-        JSON.stringify([{ _id: product._id, type: "joggers" }])
+        JSON.stringify([
+          { _id: product._id, type: "joggers", unit: 1, price: product.price },
+        ])
       );
 
       // window.localStorage.setItem("cartItem", stringifyData);
@@ -157,6 +152,11 @@ function SimpleCard({ product, getJogger, addJoggerToCart, height }, props) {
   console.log("product...", product);
   console.log("check", `/${product.producttype}/${product._id}`);
   // if (product) return <div> Loading...</div>;
+  let price = new Intl.NumberFormat("en-IN", {
+    maximumSignificantDigits: 3,
+  }).format(product.price);
+  console.log("ppppp", price);
+
   return (
     <Card className={classes.root}>
       <Link
@@ -195,7 +195,7 @@ function SimpleCard({ product, getJogger, addJoggerToCart, height }, props) {
               component="h2"
               className={`${classes.contentText} ${classes.productPrice}`}
             >
-              ₦{product.price}
+              ₦{price}
             </Typography>
           </div>
           <div className={classes.productButtonSection}>

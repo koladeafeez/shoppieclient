@@ -24,6 +24,7 @@ import Product from "./Product.js";
 // import useStyles from "../../styles/ProductsListStyles";
 
 import img from "../../assets/christopher-czermak-ulG2K7id26s-unsplash.jpg";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +40,23 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: "100%",
     },
   },
+
+  showcaseProductHozDiv2: {
+    width: "100%",
+    // backgroundColor: theme.,
+    height: "10vh",
+    marginBottom: "1rem",
+  },
+
+  hoz1: {
+    float: "left",
+    paddingLeft: "7rem",
+    paddingTop: "1rem",
+    [theme.breakpoints.down("xs")]: {
+      paddingLeft: "1rem",
+    },
+  },
+
   imageGrid: {
     width: "100%",
   },
@@ -167,6 +185,7 @@ const ProductDetails = ({ routeProps, onGetJogger, product }) => {
   const classes = useStyles();
 
   let [image, setImage] = useState(null);
+  window.scroll(0, 0);
 
   // console.log("imageddd", image);
   // console.log(product.loading);
@@ -216,6 +235,30 @@ const ProductDetails = ({ routeProps, onGetJogger, product }) => {
   if (product.data.images == undefined) return <div>Loading</div>;
   return (
     <>
+      {window.innerWidth > 500 ? (
+        <div className={classes.showcaseProductHozDiv2}>
+          <div className={classes.hoz1}>
+            <Typography className={classes.hozDivFirstGridNav}>
+              <Link to="/" style={{ textDecoration: "none", color: "#002EAD" }}>
+                Home
+              </Link>{" "}
+              {">"}{" "}
+              <Link
+                to="/joggers"
+                style={{ textDecoration: "none", color: "#002EAD" }}
+              >
+                Joggers
+              </Link>{" "}
+              {">"}{" "}
+              <Link style={{ textDecoration: "none", color: "#002EAD" }}>
+                {product.data.productname}
+              </Link>
+            </Typography>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
       <Grid container className={classes.root}>
         {/* <Paper elevation={4}> */}
         <Grid item sm={5} xs={12} className={classes.imageGrid}>
@@ -313,11 +356,10 @@ const ProductDetails = ({ routeProps, onGetJogger, product }) => {
             className={classes.productShortDetails}
           >
             <Typography> {product.data.shortdetails}</Typography>
-
             <Typography className={classes.productname}>
               {product.data.productname}
             </Typography>
-            {/* 2 In 1 Men's Short Sleeve Shorts Set - Yellow */}
+            <Divider />2 In 1 Men's Short Sleeve Shorts Set - Yellow
           </Typography>
           <Divider />
           <Typography
@@ -325,11 +367,18 @@ const ProductDetails = ({ routeProps, onGetJogger, product }) => {
             gutterBottom
             className={`${classes.productShortDetails} ${classes.productPrice}`}
           >
-            {/* ₦ 3,900 */}₦{product.data.price}
+            {/* 3,900 }₦{product.data.price*/}₦
+            {new Intl.NumberFormat("en-IN", {
+              maximumSignificantDigits: 3,
+            }).format(product.data.price)}
           </Typography>
           <Divider />
           <Typography
-            style={{ fontSize: ".875rem", fontWeight: 500 }}
+            style={{
+              fontSize: ".875rem",
+              fontWeight: 500,
+              fontFamily: "Holtwood One SC, Helvetica",
+            }}
             id="range-slider"
             gutterBottom
             className={classes.productShortDetails}
@@ -389,7 +438,12 @@ const ProductDetails = ({ routeProps, onGetJogger, product }) => {
             className={`${classes.productShortDetails} ${classes.addToCart} `}
           >
             <AddShoppingCart style={{ marginRight: "auto" }} />{" "}
-            <Typography style={{ paddingRight: "6rem" }}>
+            <Typography
+              style={{
+                paddingRight: "6rem",
+                fontFamily: "Source Serif Pro, sans-serif",
+              }}
+            >
               Add To Cart
             </Typography>
           </Button>
@@ -398,9 +452,14 @@ const ProductDetails = ({ routeProps, onGetJogger, product }) => {
         {/* </Paper> */}
       </Grid>
       <Paper className={classes.productLongDetails} elevation={2}>
-        <Typography variants="h3">PRODUCT DESCRIPTION</Typography>
+        <Typography
+          variants="h3"
+          style={{ fontFamily: "Holtwood One SC, Helvetica" }}
+        >
+          PRODUCT DESCRIPTION
+        </Typography>
         <Divider />
-        <Typography>
+        <Typography style={{ fontFamily: "Source Serif Pro, sans-serif" }}>
           {/* Our Effective, Breathable, Adjustable and Comfortable Posture
           Corrector with Upper Back Support for men, women, adults & kids
           alleviate all types of back pains and offer shoulder support and

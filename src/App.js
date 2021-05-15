@@ -15,6 +15,10 @@ import Layout from "./components/Shared/Layout";
 import DetailsLayout from "./components/Shared/DetailsLayout";
 import { CreateProduct } from "./components/Admin/CreateProduct";
 
+import navFont from "./assets/fonts/Oswald/Oswald-Bold.ttf";
+import homeShowCaseFont from "./assets/fonts/PT_Sans/PTSans-Bold.ttf";
+import "./font.css";
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -23,6 +27,7 @@ const theme = createMuiTheme({
     background: "#FFFFFF",
     complimentary: "#2268DD",
     pageBackground: "#F5F5F5",
+    showCaseButton: "#F0CCA9",
   },
 });
 

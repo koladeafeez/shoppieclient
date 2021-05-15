@@ -26,6 +26,8 @@ const Account = () => {
     // this.setState({ isRegisterOpen: true, isLoginOpen: false });
   };
 
+  const handleHaveAccount = (e) => {};
+
   return (
     <div className="root-container">
       <div className="boxtypeContainer">
@@ -54,6 +56,15 @@ const Account = () => {
         {isLoginOpen && <LoginBox />}
         {isRegisterOpen && <RegisterBox />}
       </div>
+      <h5>
+        Don't Have Account,{" "}
+        <a
+          onClick={showRegisterBox}
+          style={{ color: "#70a1ff", cursor: "pointer" }}
+        >
+          Register
+        </a>
+      </h5>
     </div>
   );
 };

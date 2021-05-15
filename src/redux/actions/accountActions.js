@@ -57,7 +57,7 @@ export const signUp = (registrationDetails) => {
     dispatch(signupRequest());
     // try {
     axios
-      .post(LOCAL_URL, registrationDetails, {
+      .post(PROD_URL, registrationDetails, {
         headers: {
           contentType: "application/json",
         },
@@ -83,7 +83,7 @@ export const logIn = (loginDetails) => {
     dispatch(loginRequest());
     // try {
     axios
-      .post(DEV_URL, loginDetails, {
+      .post(PROD_URL, loginDetails, {
         headers: {
           contentType: "application/json",
         },

@@ -16,11 +16,13 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import LocalMallOutlinedIcon from "@material-ui/icons/LocalMallOutlined";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getAllJoggers, searchTerm } from "../../redux/actions/joggerActions";
+import "../../font.css";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -29,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   appbar: {
+    fontFamily: "PT Sans  'Helvetica Neue', sans-serif",
+    // fontFamily: theme.palette.homeShowCaseFont,
     padding: 10,
     backgroundColor: theme.palette.background,
     "@media (min-width: 1280px)": {
@@ -58,12 +62,14 @@ const useStyles = makeStyles((theme) => ({
     borderColor: "#C7C7CD",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: "#F5F5F5",
+    maxHeight: "2rem",
     "&:hover": {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
     width: "100%",
+
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
       width: "30%",
@@ -131,7 +137,7 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
-      width: "20ch",
+      width: "20vw",
     },
     // "@media (max-width: 780px)": {
     //   display: "none",
@@ -150,32 +156,62 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   btn: {
+    fontSize: "medium",
+    marginRight: "2rem",
+    // fontFamily: "PT Sans sans-serif",
+    fontFamily: "Holtwood One SC, serif",
     color: theme.palette.complimentary,
-    fontWeight: "bolder",
+    fontWeight: 400,
     [theme.breakpoints.down("xs")]: {
       fontSize: "3vw",
     },
   },
   btn1: {
+    fontFamily: "Holtwood One SC, serif",
+    fontSize: "medium",
+    marginRight: "2rem",
+
+    // fontFamily: "PT Sans sans-serif",
     // marginRight: "0.9rem",
     color: theme.palette.complimentary,
     margin: "auto",
     textAlign: "center",
-    fontWeight: "bolder",
+    fontWeight: 400,
     [theme.breakpoints.down("xs")]: {
       fontSize: "3vw",
       // marginRight: "0.2rem",
       // float: ""
     },
   },
+
+  signupBtn: {
+    fontFamily: "Holtwood One SC, serif",
+    fontSize: "small",
+    marginRight: "2rem",
+
+    // fontFamily: "PT Sans sans-serif",
+    // marginRight: "0.9rem",
+    color: theme.palette.complimentary,
+    margin: "auto",
+    textAlign: "center",
+    fontWeight: 100,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "medium",
+      // marginRight: "0.2rem",
+      // float: ""
+    },
+  },
+
   searchBtn: {
+    fontSize: "medium",
     backgroundColor: theme.palette.primary.main,
-    width: "20%",
-    marginLeft: "5px",
+    width: "40%",
+    fontFamily: "PT Sans, sans-serif",
+    // marginLeft: "5px",
 
     // marginRight: "0.2rem",
     [theme.breakpoints.up("md")]: {
-      marginLeft: "5rem",
+      // marginLeft: "5rem",
     },
   },
   products: {
@@ -197,7 +233,7 @@ const useStyles = makeStyles((theme) => ({
     // backgroundColor: theme.palette.background,
   },
   popMenuUl: {
-    backgroundColor: "#212121",
+    backgroundColor: "#696969",
     color: "#fff",
     height: "50%",
     width: "100%",
@@ -229,6 +265,7 @@ function PrimarySearchAppBar({
   onGetSearchTermJoggers,
   onSaveSearch,
   isLogin,
+  cartCount,
 }) {
   console.log("layoutitem", cartItem);
   const classes = useStyles();
@@ -253,10 +290,11 @@ function PrimarySearchAppBar({
   console.log(window.localStorage.getItem("itemCount") === null);
   let localCartNumber = window.localStorage.getItem("itemCount");
   console.log("localCartNumber", localCartNumber);
-  let numberOfItemInCart =
-    localCartNumber === null
-      ? cartItem.cart.itemNumber
-      : parseInt(localCartNumber);
+  // let numberOfItemInCart = cartCount;
+  // let numberOfItemInCart =
+  //   localCartNumber === null
+  //     ? cartItem.cart.itemNumber
+  //     : parseInt(localCartNumber);
 
   const handleSearchChange = (e) => {
     e.preventDefault();
@@ -317,9 +355,11 @@ function PrimarySearchAppBar({
       className={classes.popMenu}
     >
       <div className={classes.popMenuUl}>
-        <MenuItem onClick={handleMenuClose}>Collections Menu</MenuItem>
+        <MenuItem onClick={handleMenuClose}>Home</MenuItem>
         <Divider className={classes.divider} />
-        <MenuItem onClick={handleMenuClose}>Joggers</MenuItem>
+        <Link to="/joggers" className={classes.link}>
+          <MenuItem onClick={handleMenuClose}>Joggers</MenuItem>
+        </Link>
         <Divider className={classes.divider} />
         <MenuItem onClick={handleMenuClose}>Aso Oke</MenuItem>
       </div>
@@ -339,14 +379,6 @@ function PrimarySearchAppBar({
       className={classes.popMenu}
     >
       <div className={classes.popMenuUl}>
-        <MenuItem>
-          <IconButton aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <MailIcon />
-            </Badge>
-          </IconButton>
-          <p>Messages</p>
-        </MenuItem>
         <Divider className={classes.divider} />
         <MenuItem>
           <IconButton aria-label="show 11 new notifications" color="inherit">
@@ -358,17 +390,37 @@ function PrimarySearchAppBar({
         </MenuItem>
         <Divider className={classes.divider} />
 
-        <MenuItem onClick={handleMenuBarOpen}>
-          <IconButton
-            aria-label="account of current user"
-            aria-controls="primary-search-account-menu"
-            aria-haspopup="true"
-            color="inherit"
+        {isLogin === null ? (
+          <Link
+            to="/Account"
+            style={{ color: "inherit", textDecoration: "none" }}
           >
-            <AccountCircle />
-          </IconButton>
-          <p>firstname l.</p>
-        </MenuItem>
+            {" "}
+            <MenuItem>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="primary-search-account-menu"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <h5>Sign In</h5>
+            </MenuItem>
+          </Link>
+        ) : (
+          <MenuItem onClick={handleMenuBarOpen}>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <p>firstname l.</p>
+          </MenuItem>
+        )}
         <Menu
           anchorEl={profileEl}
           anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -392,7 +444,7 @@ function PrimarySearchAppBar({
   return (
     <div className={classes.grow}>
       <AppBar position="fixed" className={classes.appbar}>
-        <Toolbar>
+        <Toolbar style={{ minHeight: "50px" }}>
           <IconButton
             edge="start"
             className={`${classes.menuButton} ${classes.hamburger}`}
@@ -460,22 +512,27 @@ function PrimarySearchAppBar({
           </div>
           <Link to="/cart" className={classes.link}>
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={numberOfItemInCart} color="secondary">
-                <ShoppingCartIcon />
+              <Badge badgeContent={cartCount} color="secondary">
+                <LocalMallOutlinedIcon />
+                {/* <ShoppingCartIcon /> */}
               </Badge>
             </IconButton>
           </Link>
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
+            {/* <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
 
             {isLogin == null ? (
               <Link to="/Account" className={classes.link}>
-                <Button variant="text" className={classes.btn1}>
-                  Sign Up
+                <Button
+                  variant="text"
+                  style={{ paddingTop: "10px" }}
+                  className={classes.signupBtn}
+                >
+                  Log In
                 </Button>
               </Link>
             ) : (
@@ -514,6 +571,7 @@ const mapStateToProps = (state) => {
   console.log("state", state.showcase.data[1]);
   return {
     cartItem: state,
+    cartCount: state.cartItem.itemNumber,
     joggers: state.showcase.data[1],
     asooke: state.showcase.data[0],
     isLogin: state.auth.auth,

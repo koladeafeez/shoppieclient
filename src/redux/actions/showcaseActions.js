@@ -30,7 +30,7 @@ export const getShowcase = () => {
   return (dispatch) => {
     dispatch(getShowcaseRequest());
     axios
-      .get(LOCAL_URL)
+      .get(PROD_URL)
       .then((response) => {
         console.log("response is good", response);
         if (response.status === 200 && response.statusText === "OK") {

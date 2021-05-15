@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { connect } from "react-redux";
 import { Container, Typography, Button, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -8,6 +8,7 @@ import CartItem from "./CartItem.js";
 import { getItemInCart } from "../../redux/actions/cartActions.js";
 import { Autocomplete } from "@material-ui/lab";
 // import useStyles from "../../styles/Cartstyles";
+// import { handleCartLoad } from "./../../redux/actions/cartActions";
 
 const useStyles = makeStyles((theme) => ({
   sectionContainer: {
@@ -87,23 +88,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Cart = ({ itemNumber, cartItem, getCart, saveItems }) => {
+const Cart = ({ itemNumber, getCart, cartItem, totalAmount }) => {
+  // let cartItem = [];
   const classes = useStyles();
 
+  const [totalPrice, setTotalPrice] = useState([]);
+
   useEffect(() => {
-    if (window.localStorage.getItem("cartItem") !== null && itemNumber === 0) {
+    if (window.localStorage.getItem("cartItem") !== null) {
       let localDataString = window.localStorage.getItem("cartItem");
-      console.log("localData parse", JSON.parse(localDataString));
+
       let localData = JSON.parse(localDataString);
       getCart(localData);
+
+      // cartLoad(localData)
+
+      console.log("fresh", cartItem);
     }
   }, []);
-  if (saveItems.length > 0) {
-    cartItem = [...cartItem, ...saveItems];
-  }
+  // if (saveItems.length > 0) {
+  //   cartItem = [...cartItem, ...saveItems];
+  // }
 
-  console.log("savedItems", saveItems);
-  console.log("cartItemsssss", cartItem);
+  const handleCallback = (childData) => {
+    let newPrice = [...totalPrice];
+    newPrice.push(childData);
+    // setTotalPrice(childData);
+  };
+
+  // console.log("savedItems", saveItems);
 
   // const handleEmptyCart = () => onEmptyCart();
 
@@ -181,12 +194,24 @@ const Cart = ({ itemNumber, cartItem, getCart, saveItems }) => {
         </Grid>
         {cartItem.map((item) => {
           console.log(item);
-          return <CartItem product={item} />;
+          return (
+            <CartItem
+              product={item}
+              parentCallback={handleCallback}
+              totalPrice={totalPrice}
+            />
+          );
         })}
       </Grid>
       <div style={{ float: "right" }}>
         <Typography className={classes.totalLabel}>Total: </Typography>
-        <Typography className={classes.totalAmount}> $5000 </Typography>
+        <Typography
+          className={classes.totalAmount}
+          style={{ fontFamily: "Holtwood One SC" }}
+        >
+          {" "}
+          ₦{totalAmount}
+        </Typography>
       </div>
 
       <div className={classes.btnContainer}>
@@ -218,13 +243,13 @@ const Cart = ({ itemNumber, cartItem, getCart, saveItems }) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log("INside Cart", state);
+  console.log("INside Cart", state.cartItem);
 
   return {
-    cartItem: state.cart.joggersInCart,
-    itemNumber: state.cart.itemNumber,
-    saveItems:
-      state.cartItem.cartItem === null ? [] : state.cartItem.cartItem.data,
+    // cartItem: state.cartItem.joggersInCart,
+    itemNumber: state.cartItem.itemNumber,
+    cartItem: state.cartItem.cartItem,
+    totalAmount: state.cartItem.totalAmount,
   };
 };
 
@@ -232,6 +257,7 @@ const mapDispatchToProps = (dispatch) => {
   console.log("dispatch", dispatch);
   return {
     getCart: (localCart) => dispatch(getItemInCart(localCart)),
+    // cartLoad: (currentCartValue) => dispatch(handleCartLoad(currentCartValue)),
   };
 };
 

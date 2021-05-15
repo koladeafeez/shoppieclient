@@ -94,14 +94,14 @@ export const getJoggerError = (error) => {
 export function getAllJoggers(pageNumber = 1, searchTerm = "", price = 0) {
   console.log("pageNumber", pageNumber);
   console.log("searchterm in action", searchTerm);
-  let PROD_URL = `https://shoppieapi.herokuapp.com/api/product/joggers?page=${pageNumber}&limit=5&search=${searchTerm}&price=${price}`;
+  let PROD_URL = `https://shoppieapi.herokuapp.com/api/product/joggers?page=${pageNumber}&limit=9&search=${searchTerm}&price=${price}`;
   console.log(PROD_URL);
-  let LOCAL_URL = `http://localhost:4000/api/product/joggers?page=${pageNumber}&limit=5&search=${searchTerm}&price=${price}`;
+  let LOCAL_URL = `http://localhost:4000/api/product/joggers?page=${pageNumber}&limit=9&search=${searchTerm}&price=${price}`;
   console.log(PROD_URL);
   return (dispatch) => {
     dispatch(getAllJoggersRequest());
     axios
-      .get(LOCAL_URL, {
+      .get(PROD_URL, {
         headers: {
           authorization:
             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNzc2OTY4ZmMyOWE5MWRhNDBhYjMzMSIsInJvbGUiOiJiYXNpYyIsImlhdCI6MTYxODQzODYxNiwiZXhwIjoxNjE4NTI1MDE2fQ.TiCBPES4kTnjnqf-TyNAcfrw4ZgQhtDTAoWU3Gdi_dY",
@@ -129,12 +129,13 @@ export function getAllJoggers(pageNumber = 1, searchTerm = "", price = 0) {
 
 export const getJogger = (productId, productType) => {
   let LOCAL_URL;
+  let PROD_URL;
   console.log("in producttype", productType);
   if (productType === "jogger") {
-    let PROD_URL = `https://shoppieapi.herokuapp.com/api/product/joggers/${productId}`;
+    PROD_URL = `https://shoppieapi.herokuapp.com/api/product/joggers/${productId}`;
     LOCAL_URL = `http://localhost:4000/api/product/joggers/${productId}`;
   } else {
-    let PROD_URL = `https://shoppieapi.herokuapp.com/api/product/asookes/${productId}`;
+    PROD_URL = `https://shoppieapi.herokuapp.com/api/product/asookes/${productId}`;
     LOCAL_URL = `http://localhost:4000/api/product/asookes/${productId}`;
   }
 
@@ -143,7 +144,7 @@ export const getJogger = (productId, productType) => {
   return (dispatch) => {
     dispatch(getJoggerRequest());
     axios
-      .get(LOCAL_URL)
+      .get(PROD_URL)
       .then((response) => {
         console.log("response is good", response);
         if (response.status === 200 && response.statusText === "OK") {

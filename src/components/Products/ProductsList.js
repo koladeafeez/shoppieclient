@@ -11,8 +11,8 @@ import { Button, Typography, Divider } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   gridContainer: {
-    padding: "6px !important",
-    minHeight: "90vh",
+    // padding: "6px !important",
+    minHeight: "80vh",
     [theme.breakpoints.down("xs")]: {
       minHeight: "70vh",
       flexBasis: "90%",
@@ -138,7 +138,7 @@ const Products = ({
   // products = [1, 2, 3, 4, 5, 6];
   if (!joggers.joggers.length) return <p>Loading...</p>;
   return (
-    <main className={classes.content}>
+    <main className={classes.content} style={{ paddingTop: "2rem" }}>
       <div className={classes.toolbar} />
       <Grid
         container

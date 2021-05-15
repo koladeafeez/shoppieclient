@@ -7,7 +7,7 @@ import { searchReducer } from "./searchReducer";
 
 const rootReducer = combineReducers({
   showcase: showcaseReducer,
-  cart: cartReducer,
+  // cart: cartReducer,
   cartItem: cartItemReducer,
   joggers: getAllJoggersReducer,
   product: getJoggerReducer,
